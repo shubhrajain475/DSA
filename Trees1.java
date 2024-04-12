@@ -1,4 +1,6 @@
-//lowest common anscenstor
+//BFS using queue
+import java.util.*;
+import java.util.LinkedList.*;
 public class Trees1{
 	static class Node{
 		int data;
@@ -9,23 +11,35 @@ public class Trees1{
 			this.right=null;
 		}
 	}
-		public static Node lca(Node root,int p,int q){
-			if(root==null||root.data==p||root.data==q){
-				return root;
+		public static void levelorder(Node root){
+			if(root==null){
+				return;
 			}
-			Node left=lca(root.left,p,q);
-			Node right=lca(root.right,p,q);
-			if(left==null){
-				return right;
+			Queue<Node>q=new LinkedList<>();
+			q.add(root);
+			q.add(null);
+			while(!q.isEmpty()){
+				Node currNode=q.remove();
+				if(currNode==null){
+					System.out.println();
+					if(q.isEmpty()){
+						break;
+					}
+					else{
+						q.add(null);
+					}
+				}
+				else{
+					System.out.print(currNode.data+" ");
+					if(currNode.left!=null){
+						q.add(currNode.left);
+					}
+					if(currNode.right!=null){
+						q.add(currNode.right);
+					}
+				}
 			}
-			else if(right==null){
-				return left;
-			}
-			else{
-				return root;
-			}
-	
-	}
+		}
 	public static void main(String ar[]){
 		Node root=new Node(1);
 		root.left=new Node(2);
@@ -34,7 +48,7 @@ public class Trees1{
 		root.left.right=new Node(5);
 		root.right.left=new Node(6);
 		root.right.right=new Node(7);
-		Node lcaNode=lca(root,4,7);
-		System.out.println(lcaNode.data);
+	
+		levelorder(root);
 	}
 }
